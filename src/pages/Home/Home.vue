@@ -5,12 +5,20 @@
             placeholder="Категории"
             :items="mockCategories" />
     </div>
-    <div class="mt-6"></div>
+    <div class="mt-6">
+        <QuizPreview
+            v-for="card in quizes"
+            :card="card"
+            :key="card.id" 
+        />
+    </div>
 </template>
 
 <script lang="ts" setup>
 import { httpGetQuizes } from '@/api/quiz/quiz.api';
-import { onMounted } from 'vue';
+import QuizPreview from '@/components/ui/QuizPreview.vue';
+import type { Quiz } from '@/types';
+import { onMounted, ref } from 'vue';
 
 const mockCategories = [
     {
@@ -23,9 +31,11 @@ const mockCategories = [
     },
 ];
 
+const quizes = ref<Quiz.IItem[]>();
+
 const fetch = async () => {
     const data = await httpGetQuizes();
-    console.log(data);
+    quizes.value = data;
 };
 
 onMounted(async () => {
