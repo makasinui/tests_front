@@ -1,4 +1,2 @@
-export interface IFilterItem {
-    id: number
-    name: string
-}
+export * from './global'
+export * from './quiz'
