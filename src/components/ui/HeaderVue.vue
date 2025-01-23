@@ -1,5 +1,5 @@
 <template>
-    <header class="h-16 gap-4 flex items-center fixed w-full justify-between border-b border-gray-500 px-2">
+    <header class="header">
         <BurgerMenu @click="onOpen" />
         <Icon
             icon="qlementine-icons:user-16"
@@ -19,3 +19,9 @@ const onOpen = () => {
     isOpen.value = !isOpen.value;
 };
 </script>
+
+<style>
+.header {
+    @apply h-16 gap-4 flex items-center fixed w-full justify-between border-b border-gray-500 px-2 bg-white;
+}
+</style>

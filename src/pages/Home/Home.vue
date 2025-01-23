@@ -1,16 +1,18 @@
 <template>
-    <Title>Тесты онлайн</Title>
-    <div class="mt-4">
-        <Select
-            placeholder="Категории"
-            :items="mockCategories" />
-    </div>
-    <div class="mt-6">
-        <QuizCard
-            v-for="card in quizes"
-            :card="card"
-            :key="card.id" 
-        />
+    <div class="px-4 pt-24">
+        <Title>Тесты онлайн</Title>
+        <div class="mt-4">
+            <Select
+                placeholder="Категории"
+                :items="mockCategories" />
+        </div>
+        <div class="mt-6">
+            <QuizCard
+                v-for="card in quizes"
+                :card="card"
+                :key="card.id"
+            />
+        </div>
     </div>
 </template>
 

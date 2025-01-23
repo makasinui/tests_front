@@ -1,9 +1,13 @@
 import Layout from './ui/Layout.vue'
 import Select from './ui/Select.vue'
 import Title from './ui/Title.vue'
+import Spinner from './ui/Spinner.vue'
+import Button from './ui/Button.vue'
 
 export {
     Layout,
     Select,
-    Title
+    Title,
+    Spinner,
+    Button
 }
