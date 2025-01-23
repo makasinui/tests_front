@@ -4,7 +4,7 @@
             class="select-wrapper"
             :class="{ 'select-wrapper__open': isOpen }"
             @click.stop="onOpen">
-            <span>{{ getTitle() }}</span>
+            <span class="text-sm">{{ getTitle() }}</span>
             <Icon
                 @click.stop="clearItem"
                 v-if="selected"
@@ -21,7 +21,9 @@
             <span
                 v-for="item in items"
                 @click.stop="onSelect(item)"
-                :key="item.id">
+                :key="item.id"
+                class="text-sm"
+            >
                 {{ item.name }}
             </span>
         </div>
