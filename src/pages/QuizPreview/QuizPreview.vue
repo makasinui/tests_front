@@ -12,11 +12,12 @@
             <img
                 :src="quiz?.img"
                 :alt="quiz?.title"
-                class="w-32 h-32 mx-auto rounded-full object-cover" 
-            />
+                class="w-32 h-32 mx-auto rounded-full object-cover" />
             <h1 class="text-center pt-6">{{ quiz?.title }}</h1>
             <p class="text-center">{{ quiz?.subtitle }}</p>
-            <Button class="mx-auto mt-4">Начать</Button>
+            <router-link :to="`/quiz/${id}/start`">
+                <Button class="mx-auto mt-4">Начать</Button>
+            </router-link>
         </div>
     </section>
 </template>
