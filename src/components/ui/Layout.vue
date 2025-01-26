@@ -1,6 +1,6 @@
 <template>
     <HeaderVue />
-    <main class="bg-main-bg min-h-screen">
+    <main class="bg-main-bg h-full">
         <slot></slot>
     </main>
 </template>

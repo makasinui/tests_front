@@ -1,7 +1,7 @@
 <template>
-    <div class="pt-20 bg-quiz">
+    <div class="pt-20 bg-quiz h-full">
         <Spinner v-if="isLoading && !currentStep?.id" />
-        <div v-if="!isLoading && currentStep?.id" class="flex flex-col h-screen gap-6">
+        <div v-if="!isLoading && currentStep?.id" class="flex flex-col gap-6 h-full">
             <h2 class="text-center text-xl">{{ currentStep?.name }}</h2>
             <QuizAnswer 
                 v-if="answers?.length"

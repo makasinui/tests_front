@@ -1,8 +1,8 @@
 <template>
-    <section class="bg-quiz px-4 pt-20">
+    <section class="h-full bg-quiz px-4 pt-20">
         <Spinner v-if="isLoading && quiz?.id" />
         <div
-            class="h-[calc(100vh-80px)] w-full"
+            class="h-full w-full"
             v-else>
             <router-link to="/">
                 <Icon
