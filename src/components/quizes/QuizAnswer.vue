@@ -3,13 +3,15 @@
         <form>
             <div class="px-4" v-for="item in answers" :key="item.id">
                 <input :id="item.id.toString()" name="answer" type="radio">
-                <label :for="item.id.toString()" class="pl-4">{{ item.name }}</label>
+                <label :for="item.id.toString()" class="pl-4 text-md">
+                    {{ item.name }}
+                </label>
             </div>
         </form>
     </div>
     <div v-else>
-        <input type="text" />
-        {{ answers[0].name }}
+        <input id="text-input" type="text" />
+        <label for="text-input">{{ answers[0].name }}</label>
     </div>
 </template>
 

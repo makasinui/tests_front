@@ -1,14 +1,14 @@
 <template>
     <div class="pt-20 bg-quiz">
         <Spinner v-if="isLoading && !currentStep?.id" />
-        <div v-if="!isLoading && currentStep?.id" class="flex flex-col h-screen">
-            <h2 class="text-center">{{ currentStep?.name }}</h2>
+        <div v-if="!isLoading && currentStep?.id" class="flex flex-col h-screen gap-6">
+            <h2 class="text-center text-xl">{{ currentStep?.name }}</h2>
             <QuizAnswer 
                 v-if="answers?.length"
                 :type="currentStep?.type" 
                 :answers="answers" 
             />
-            <Button @click="onNextStep">Следующий шаг</Button>
+            <Button @click="onNextStep" class="mx-4">Следующий шаг</Button>
         </div>
     </div>
 </template>
