@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import { httpGetAnswers } from '@/api/answers/answers.api';
-import { httpGetQeustions } from '@/api/questions/questions.api';
+import { httpGetQuestions } from '@/api/questions/questions.api';
 import QuizAnswer from '@/components/quizes/QuizAnswer.vue';
 import type { Answers, Questions } from '@/types';
 import { computed, onMounted, ref, watch } from 'vue';
@@ -31,7 +31,7 @@ const answers = ref<Answers.IItem[]>();
 
 const fetch = async () => {
     isLoading.value = true;
-    questions.value = await httpGetQeustions(id);
+    questions.value = await httpGetQuestions(id);
     answers.value = await httpGetAnswers(questions.value[0]?.id);
     isLoading.value = false;
 };
