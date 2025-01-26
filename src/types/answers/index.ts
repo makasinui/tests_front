@@ -4,4 +4,8 @@ export namespace Answers {
         name: string
         img?: string
     }
+
+    export interface IItemFiltered extends IItem {
+        checked: boolean
+    }
 }
