@@ -1,12 +1,14 @@
 <template>
     <div v-if="type === Questions.EType.CHOICE">
-        <form>
-            <div class="px-4" v-for="item in answers" :key="item.id">
-                <input :id="item.id.toString()" name="answer" type="radio">
-                <label :for="item.id.toString()" class="pl-4 text-md">
-                    {{ item.name }}
-                </label>
-            </div>
+        <form class="flex flex-col">
+            <Checkbox 
+                v-for="item in localAnswers" 
+                :key="item.id"
+                :id="item.id"
+                :label="item.name"
+                :model-value="item.checked"
+                @update:modelValue="onChecked($event, item.id)"
+            />
         </form>
     </div>
     <div v-else>
@@ -17,11 +19,30 @@
 
 <script lang="ts" setup>
 import { Questions, type Answers } from '@/types';
+import { ref } from 'vue';
 
 interface IProps {
     type: Questions.EType
-    answers: Answers.IItem[]
+    answers: Answers.IItemFiltered[]
 }
 
-defineProps<IProps>();
+type TEmits = {
+    change: [id: number]
+}
+
+const props = defineProps<IProps>();
+defineEmits<TEmits>();
+
+const localAnswers = ref(props.answers);
+
+const onChecked = (val: boolean, id: number) => {
+    const answer = localAnswers.value.find(item => item.id === id)!;
+    if(val) {
+        localAnswers.value.forEach((item) => {
+            item.checked = false;
+        })
+    }
+    
+    answer.checked = val
+}
 </script>
