@@ -13,4 +13,9 @@ export namespace Questions {
         CHOICE = 'choice',
         TEXT = 'text'
     }
+
+    export interface IQuestionStep {
+        step: number
+        id: number
+    }
 }

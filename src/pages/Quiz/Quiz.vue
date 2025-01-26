@@ -2,11 +2,12 @@
     <div class="pt-20 bg-quiz h-full">
         <Spinner v-if="isLoading && !currentStep?.id" />
         <div v-if="!isLoading && currentStep?.id" class="flex flex-col gap-6 h-full">
-            <h2 class="text-center text-xl">{{ currentStep?.name }}</h2>
+            <h2 class="text-center text-2xl font-bold">{{ currentStep?.name }}</h2>
             <QuizAnswer 
                 v-if="answers?.length"
-                :type="currentStep?.type" 
-                :answers="answers" 
+                :type="currentStep?.type"
+                :answers="answers"
+                @change="setQuestionAnswer"
             />
             <Button @click="onNextStep" class="mx-4">Следующий шаг</Button>
         </div>
@@ -27,7 +28,9 @@ const step = ref(0);
 
 const isLoading = ref(false);
 const questions = ref<Questions.IItem[]>();
-const answers = ref<Answers.IItem[]>();
+const answers = ref<Answers.IItemFiltered[]>();
+
+const stepAndAnswer = ref<Questions.IQuestionStep[]>([]);
 
 const fetch = async () => {
     isLoading.value = true;
@@ -45,6 +48,17 @@ const onNextStep = () => {
 onMounted(async () => {
     await fetch();
 });
+
+const setQuestionAnswer = (id: number) => {
+    const stepIdx = stepAndAnswer.value.findIndex(item => item.step === step.value);
+
+    if(stepIdx !== -1) {
+        stepAndAnswer.value[stepIdx].id = id;
+    } else {
+        stepAndAnswer.value.push({step: step.value, id});
+    }
+    console.log(stepAndAnswer.value)
+}
 
 watch(step, async () => {
     if(currentStep?.value?.id) {

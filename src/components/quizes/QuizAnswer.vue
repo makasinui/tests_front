@@ -31,7 +31,7 @@ type TEmits = {
 }
 
 const props = defineProps<IProps>();
-defineEmits<TEmits>();
+const emit = defineEmits<TEmits>();
 
 const localAnswers = ref(props.answers);
 
@@ -44,5 +44,6 @@ const onChecked = (val: boolean, id: number) => {
     }
     
     answer.checked = val
+    emit('change', id)
 }
 </script>
