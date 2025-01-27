@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Questions, type Answers } from '@/types';
+import { Questions, type Answers, type Result } from '@/types';
 import { ref } from 'vue';
 
 interface IProps {
@@ -35,7 +35,7 @@ interface IProps {
 }
 
 type TEmits = {
-    change: [id: number, value: boolean | string];
+    change: [id: number, value: boolean | string, result?: string[]];
 };
 
 const props = defineProps<IProps>();
@@ -52,6 +52,8 @@ const onChecked = (val: boolean | string, id: number) => {
             });
         }
         answer.checked = !!val;
+        emit('change', id, val, answer.resultsFiltered);
+        return;
     }
 
     emit('change', id, val);

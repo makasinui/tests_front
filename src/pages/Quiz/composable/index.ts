@@ -5,13 +5,14 @@ export const useQuiz = () => {
     const step = ref(0);
 
     const isLoading = ref(false);
+    const isComplete = ref(false);
     const questions = ref<Questions.IItem[]>();
     const answers = ref<Answers.IItemFiltered[]>();
     const error = ref('');
 
     const stepAndAnswer = ref<Questions.IQuestionStep[]>([]);
 
-    const setQuestionAnswer = (id: number, val: boolean | string) => {
+    const setQuestionAnswer = (id: number, val: boolean | string, result?: string[]) => {
         const stepIdx = stepAndAnswer.value.findIndex((item) => item?.step === step.value);
 
         if (typeof val === 'string') {
@@ -26,13 +27,15 @@ export const useQuiz = () => {
 
         if (!val) {
             stepAndAnswer.value = stepAndAnswer.value.filter((item) => item?.step !== step.value);
+            
             return;
         }
 
         if (stepIdx !== -1) {
             stepAndAnswer.value[stepIdx].id = id;
+            stepAndAnswer.value[stepIdx].result = [...result!];
         } else {
-            stepAndAnswer.value.push({ step: step.value, id });
+            stepAndAnswer.value.push({ step: step.value, id, result: [...result!]});
         }
 
         error.value = '';
@@ -46,7 +49,12 @@ export const useQuiz = () => {
             error.value = 'Выберите ответ';
             return;
         }
+
         step.value = step.value + 1;
+
+        if(questions.value?.length === step.value) {
+            isComplete.value = true;
+        }
     };
 
     return {
@@ -56,8 +64,9 @@ export const useQuiz = () => {
         answers,
         error,
         stepAndAnswer,
-        setQuestionAnswer,
         currentStep,
+        isComplete,
+        setQuestionAnswer,
         onNextStep
     };
 };

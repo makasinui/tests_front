@@ -2,7 +2,7 @@
     <div class="pt-20 bg-quiz h-full">
         <Spinner v-if="isLoading && !currentStep?.id" />
         <div
-            v-if="!isLoading && currentStep?.id"
+            v-if="!isLoading && currentStep?.id && !isComplete"
             class="flex flex-col gap-6 h-full">
             <h2 class="text-center text-2xl font-bold">{{ currentStep?.name }}</h2>
             <QuizAnswer
@@ -16,6 +16,9 @@
                 class="mx-4"
                 >Следующий шаг</Button
             >
+        </div>
+        <div v-if="isComplete">
+            DONE!!
         </div>
     </div>
 </template>
@@ -38,8 +41,9 @@ const {
     answers, 
     error, 
     currentStep, 
+    isComplete,
     setQuestionAnswer, 
-    onNextStep 
+    onNextStep,
 } = useQuiz();
 
 const fetch = async () => {

@@ -19,5 +19,6 @@ export namespace Questions {
         step: number
         id?: number
         answer?: string
+        result?: string[]
     }
 }
