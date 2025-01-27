@@ -45,7 +45,7 @@ const currentStep = computed(() => questions.value?.[step.value] ?? null)
 
 const onNextStep = () => {
     const currentAnswer = stepAndAnswer.value.find(item => item?.step === step.value);
-    if(!currentAnswer?.id) {
+    if(!currentAnswer?.id && !currentStep.value?.optional) {
         error.value = 'Выберите ответ';
         return;
     }
@@ -56,19 +56,31 @@ onMounted(async () => {
     await fetch();
 });
 
-const setQuestionAnswer = (id: number, val: boolean) => {
+const setQuestionAnswer = (id: number, val: boolean | string) => {
+    const stepIdx = stepAndAnswer.value.findIndex(item => item?.step === step.value);
+
+    if(typeof(val) === 'string') {
+        if(stepIdx !== -1) {
+            stepAndAnswer.value[stepIdx].answer = val;
+        } else {
+            stepAndAnswer.value.push({step: step.value, answer: val});
+        }
+        
+        return;
+    }
+
     if(!val) {
         stepAndAnswer.value = stepAndAnswer.value.filter(item => item?.step !== step.value);
         return
     }
 
-    const stepIdx = stepAndAnswer.value.findIndex(item => item?.step === step.value);
 
     if(stepIdx !== -1) {
         stepAndAnswer.value[stepIdx].id = id;
     } else {
         stepAndAnswer.value.push({step: step.value, id});
     }
+
     error.value = ''
 }
 

@@ -11,10 +11,10 @@
             />
         </form>
     </div>
-    <div v-else>
-        <input id="text-input" type="text" />
-        <label for="text-input">{{ answers[0].name }}</label>
-    </div>
+    <form class="flex flex-col gap-2 px-4" v-else>
+        <label for="text-input" class="text-center">{{ answers[0].name }}</label>
+        <textarea @input="(ev) => onChecked(ev.target.value, answers[0].id)" id="text-input" type="text" />
+    </form>
 </template>
 
 <script lang="ts" setup>
@@ -27,7 +27,7 @@ interface IProps {
 }
 
 type TEmits = {
-    change: [id: number, value: boolean]
+    change: [id: number, value: boolean | string]
 }
 
 const props = defineProps<IProps>();
@@ -35,15 +35,17 @@ const emit = defineEmits<TEmits>();
 
 const localAnswers = ref(props.answers);
 
-const onChecked = (val: boolean, id: number) => {
-    const answer = localAnswers.value.find(item => item.id === id)!;
-    if(val) {
-        localAnswers.value.forEach((item) => {
-            item.checked = false;
-        })
+const onChecked = (val: boolean | string, id: number) => {
+    if(props.type === Questions.EType.CHOICE) {
+        const answer = localAnswers.value.find(item => item.id === id)!;
+        if(val) {
+            localAnswers.value.forEach((item) => {
+                item.checked = false;
+            })
+        }
+        answer.checked = !!val
     }
-    
-    answer.checked = val
+
     emit('change', id, val)
 }
 </script>

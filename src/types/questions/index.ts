@@ -2,6 +2,7 @@ export namespace Questions {
     export interface IItem {
         id: number
         name: string
+        optional: boolean
         timeLimit?: Date
         isImage?: boolean
         img?: string
@@ -16,6 +17,7 @@ export namespace Questions {
 
     export interface IQuestionStep {
         step: number
-        id: number
+        id?: number
+        answer?: string
     }
 }
