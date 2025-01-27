@@ -1,16 +1,21 @@
 <template>
     <div class="pt-20 bg-quiz h-full">
         <Spinner v-if="isLoading && !currentStep?.id" />
-        <div v-if="!isLoading && currentStep?.id" class="flex flex-col gap-6 h-full">
+        <div
+            v-if="!isLoading && currentStep?.id"
+            class="flex flex-col gap-6 h-full">
             <h2 class="text-center text-2xl font-bold">{{ currentStep?.name }}</h2>
-            <QuizAnswer 
+            <QuizAnswer
                 v-if="answers?.length"
                 :type="currentStep?.type"
                 :answers="answers"
-                @change="setQuestionAnswer"
-            />
+                @change="setQuestionAnswer" />
             <ErrorField :error="error" />
-            <Button @click="onNextStep" class="mx-4">Следующий шаг</Button>
+            <Button
+                @click="onNextStep"
+                class="mx-4"
+                >Следующий шаг</Button
+            >
         </div>
     </div>
 </template>
@@ -19,20 +24,23 @@
 import { httpGetAnswers } from '@/api/answers/answers.api';
 import { httpGetQuestions } from '@/api/questions/questions.api';
 import QuizAnswer from '@/components/quizes/QuizAnswer.vue';
-import type { Answers, Questions } from '@/types';
-import { computed, onMounted, ref, watch } from 'vue';
+import { onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { useQuiz } from './composable';
 
 const route = useRoute();
 const { id } = route.params as { id: string };
-const step = ref(0);
 
-const isLoading = ref(false);
-const questions = ref<Questions.IItem[]>();
-const answers = ref<Answers.IItemFiltered[]>();
-const error = ref('');
-
-const stepAndAnswer = ref<Questions.IQuestionStep[]>([]);
+const { 
+    step, 
+    isLoading, 
+    questions, 
+    answers, 
+    error, 
+    currentStep, 
+    setQuestionAnswer, 
+    onNextStep 
+} = useQuiz();
 
 const fetch = async () => {
     isLoading.value = true;
@@ -41,54 +49,15 @@ const fetch = async () => {
     isLoading.value = false;
 };
 
-const currentStep = computed(() => questions.value?.[step.value] ?? null)
-
-const onNextStep = () => {
-    const currentAnswer = stepAndAnswer.value.find(item => item?.step === step.value);
-    if(!currentAnswer?.id && !currentStep.value?.optional) {
-        error.value = 'Выберите ответ';
-        return;
-    }
-    step.value = step.value + 1;
-}
-
 onMounted(async () => {
     await fetch();
 });
 
-const setQuestionAnswer = (id: number, val: boolean | string) => {
-    const stepIdx = stepAndAnswer.value.findIndex(item => item?.step === step.value);
-
-    if(typeof(val) === 'string') {
-        if(stepIdx !== -1) {
-            stepAndAnswer.value[stepIdx].answer = val;
-        } else {
-            stepAndAnswer.value.push({step: step.value, answer: val});
-        }
-        
-        return;
-    }
-
-    if(!val) {
-        stepAndAnswer.value = stepAndAnswer.value.filter(item => item?.step !== step.value);
-        return
-    }
-
-
-    if(stepIdx !== -1) {
-        stepAndAnswer.value[stepIdx].id = id;
-    } else {
-        stepAndAnswer.value.push({step: step.value, id});
-    }
-
-    error.value = ''
-}
-
 watch(step, async () => {
-    if(currentStep?.value?.id) {
+    if (currentStep?.value?.id) {
         isLoading.value = true;
-        answers.value = await httpGetAnswers(currentStep.value.id)
+        answers.value = await httpGetAnswers(currentStep.value.id);
         isLoading.value = false;
     }
-})
+});
 </script>
