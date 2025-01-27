@@ -1,6 +1,6 @@
 <template>
     <div v-if="type === Questions.EType.CHOICE">
-        <form class="flex flex-col">
+        <form class="flex flex-col gap-2">
             <Checkbox 
                 v-for="item in localAnswers" 
                 :key="item.id"
@@ -27,7 +27,7 @@ interface IProps {
 }
 
 type TEmits = {
-    change: [id: number]
+    change: [id: number, value: boolean]
 }
 
 const props = defineProps<IProps>();
@@ -44,6 +44,6 @@ const onChecked = (val: boolean, id: number) => {
     }
     
     answer.checked = val
-    emit('change', id)
+    emit('change', id, val)
 }
 </script>

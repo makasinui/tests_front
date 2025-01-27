@@ -49,15 +49,19 @@ onMounted(async () => {
     await fetch();
 });
 
-const setQuestionAnswer = (id: number) => {
-    const stepIdx = stepAndAnswer.value.findIndex(item => item.step === step.value);
+const setQuestionAnswer = (id: number, val: boolean) => {
+    if(!val) {
+        stepAndAnswer.value = stepAndAnswer.value.filter(item => item?.step !== step.value);
+        return
+    }
 
+    const stepIdx = stepAndAnswer.value.findIndex(item => item?.step === step.value);
+    
     if(stepIdx !== -1) {
         stepAndAnswer.value[stepIdx].id = id;
     } else {
         stepAndAnswer.value.push({step: step.value, id});
     }
-    console.log(stepAndAnswer.value)
 }
 
 watch(step, async () => {
