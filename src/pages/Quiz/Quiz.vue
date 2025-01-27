@@ -9,6 +9,7 @@
                 :answers="answers"
                 @change="setQuestionAnswer"
             />
+            <ErrorField :error="error" />
             <Button @click="onNextStep" class="mx-4">Следующий шаг</Button>
         </div>
     </div>
@@ -29,6 +30,7 @@ const step = ref(0);
 const isLoading = ref(false);
 const questions = ref<Questions.IItem[]>();
 const answers = ref<Answers.IItemFiltered[]>();
+const error = ref('');
 
 const stepAndAnswer = ref<Questions.IQuestionStep[]>([]);
 
@@ -42,6 +44,11 @@ const fetch = async () => {
 const currentStep = computed(() => questions.value?.[step.value] ?? null)
 
 const onNextStep = () => {
+    const currentAnswer = stepAndAnswer.value.find(item => item?.step === step.value);
+    if(!currentAnswer?.id) {
+        error.value = 'Выберите ответ';
+        return;
+    }
     step.value = step.value + 1;
 }
 
@@ -56,12 +63,13 @@ const setQuestionAnswer = (id: number, val: boolean) => {
     }
 
     const stepIdx = stepAndAnswer.value.findIndex(item => item?.step === step.value);
-    
+
     if(stepIdx !== -1) {
         stepAndAnswer.value[stepIdx].id = id;
     } else {
         stepAndAnswer.value.push({step: step.value, id});
     }
+    error.value = ''
 }
 
 watch(step, async () => {

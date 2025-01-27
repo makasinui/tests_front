@@ -4,6 +4,7 @@ import Title from './ui/Title.vue'
 import Spinner from './ui/Spinner.vue'
 import Button from './ui/Button.vue'
 import Checkbox from './ui/Checkbox.vue'
+import ErrorField from './ui/ErrorField.vue'
 
 export {
     Layout,
@@ -11,5 +12,6 @@ export {
     Title,
     Spinner,
     Button,
-    Checkbox
+    Checkbox,
+    ErrorField
 }
