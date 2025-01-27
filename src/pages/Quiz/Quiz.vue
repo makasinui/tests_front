@@ -19,6 +19,7 @@
         </div>
         <div v-if="isComplete">
             DONE!!
+            {{ finalResult }}
         </div>
     </div>
 </template>
@@ -42,6 +43,7 @@ const {
     error, 
     currentStep, 
     isComplete,
+    finalResult,
     setQuestionAnswer, 
     onNextStep,
 } = useQuiz();

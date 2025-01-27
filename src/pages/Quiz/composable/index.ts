@@ -12,6 +12,8 @@ export const useQuiz = () => {
 
     const stepAndAnswer = ref<Questions.IQuestionStep[]>([]);
 
+    const finalResult = ref('');
+
     const setQuestionAnswer = (id: number, val: boolean | string, result?: string[]) => {
         const stepIdx = stepAndAnswer.value.findIndex((item) => item?.step === step.value);
 
@@ -54,8 +56,21 @@ export const useQuiz = () => {
 
         if(questions.value?.length === step.value) {
             isComplete.value = true;
+            getFinallyResult();
         }
     };
+    
+    const getFinallyResult = () => {
+        const allResults = stepAndAnswer.value.flatMap(item => item.result as string[]);
+        const countOfResult = allResults.reduce((acc, el) => {
+            //@ts-ignore
+            acc[el] = (acc[el] || 0) + 1;
+            return acc
+        }, {});
+
+        //@ts-ignore
+        finalResult.value = Object.keys(countOfResult).sort((a, b) => countOfResult[b] - countOfResult[a])[0];
+    }
 
     return {
         step,
@@ -66,7 +81,9 @@ export const useQuiz = () => {
         stepAndAnswer,
         currentStep,
         isComplete,
+        finalResult,
         setQuestionAnswer,
-        onNextStep
+        onNextStep,
+        getFinallyResult
     };
 };
