@@ -4,4 +4,9 @@ export namespace Result {
         name: string
         img?: string
     }
+
+    export interface IITemCreated {
+        name: string
+        img?: string
+    }
 }

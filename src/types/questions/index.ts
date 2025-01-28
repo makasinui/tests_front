@@ -1,3 +1,5 @@
+import type { Answers } from "../answers"
+
 export namespace Questions {
     export interface IItem {
         id: number
@@ -20,5 +22,16 @@ export namespace Questions {
         id?: number
         answer?: string
         result?: string[]
+    }
+
+    export interface IItemCreated {
+        name: string
+        optional: boolean
+        answers: Answers.IItemCreated[]
+        timeLimit?: Date
+        isImage?: boolean
+        img?: string
+        type: EType
+        sort?: number
     }
 }

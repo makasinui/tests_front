@@ -12,4 +12,10 @@ export namespace Answers {
         checked: boolean
         resultsFiltered: string[]
     }
+
+    export interface IItemCreated {
+        name: string
+        result: Result.IITemCreated[]
+        img?: string
+    }
 }

@@ -1,3 +1,5 @@
+import type { Questions } from "../questions"
+
 export namespace Quiz {
     export interface IBackItem {
         count: number
@@ -8,5 +10,12 @@ export namespace Quiz {
         title: string
         subtitle?: string
         img?: string
+    }
+
+    export interface IItemCreated {
+        name: string
+        subtitle?: string
+        img?: string
+        questions: Questions.IItemCreated[]
     }
 }
