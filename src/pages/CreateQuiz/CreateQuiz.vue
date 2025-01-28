@@ -4,9 +4,9 @@
         <div class="flex flex-col gap-4">
             <div class="flex flex-col gap-2">
                 <Input 
-                    v-model="name" 
-                    label="Название" 
-                    placeholder="Название опроса" 
+                    v-model="form.name"
+                    label="Название"
+                    placeholder="Название опроса"
                 />
             </div>
         </div>
@@ -14,7 +14,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 
-const name = ref('');
+const form = ref({
+    name: ''
+});
 </script>
