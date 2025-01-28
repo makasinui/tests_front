@@ -1,9 +1,8 @@
 import { Icon } from '@iconify/vue';
-import { Title, Select, Spinner, Button, Checkbox, ErrorField } from '@/components';
+import { Title, Select, Spinner, Button, Checkbox, ErrorField, Input } from '@/components';
 import type { App } from 'vue';
 
 export default {
-    //eslint-ignore
     install(app: App) {
         app.component('Icon', Icon);
         app.component('Title', Title);
@@ -12,5 +11,6 @@ export default {
         app.component('Button', Button);
         app.component('Checkbox', Checkbox);
         app.component('ErrorField', ErrorField);
+        app.component('Input', Input)
     }
 }

@@ -5,6 +5,7 @@ import Spinner from './ui/Spinner.vue'
 import Button from './ui/Button.vue'
 import Checkbox from './ui/Checkbox.vue'
 import ErrorField from './ui/ErrorField.vue'
+import Input from './ui/Input.vue'
 
 export {
     Layout,
@@ -13,5 +14,6 @@ export {
     Spinner,
     Button,
     Checkbox,
-    ErrorField
+    ErrorField,
+    Input
 }
