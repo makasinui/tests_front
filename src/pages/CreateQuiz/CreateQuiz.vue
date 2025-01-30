@@ -21,7 +21,6 @@
             </div>
             <div>
                 <Title class="text-center">Вопросы</Title>
-                <AddQuestion />
                 <div class="pt-4">
                     <Questions 
                         :questions="form.questions" 
@@ -37,13 +36,18 @@ import { computed, reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { minLength, required } from '@vuelidate/validators';
 
-import AddQuestion from '@/components/quizes/AddQuestion.vue';
+import { Questions as QuestionsType } from '@/types';
+
 import Questions from '@/components/quizes/Questions.vue';
 
 const form = reactive({
     name: '',
     description: '',
-    questions: []
+    questions: [{
+        name: '',
+        optional: false,
+        type: QuestionsType.EType.CHOICE
+    }]
 });
 
 const rules = computed(() => ({

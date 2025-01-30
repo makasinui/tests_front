@@ -1,20 +1,20 @@
 <template>
-    <div class="flex">
+    <div class="flex gap-2 justify-between">
         Добавить вопрос:
-        <Button
-            small
-            class="ml-auto"
-            @click="onClick(Questions.EType.CHOICE)"
-        >
-            С выбором
-        </Button>
-        <Button
-            small
-            class="ml-auto"
-            @click="onClick(Questions.EType.TEXT)"
-        >
-            С полем ввода
-        </Button>
+        <div class="flex gap-2">
+            <Button
+                small
+                @click="onClick(Questions.EType.CHOICE)"
+            >
+                Ответы
+            </Button>
+            <Button
+                small
+                @click="onClick(Questions.EType.TEXT)"
+            >
+                Текст
+            </Button>
+        </div>
     </div>
 </template>
 

@@ -27,7 +27,7 @@ export namespace Questions {
     export interface IItemCreated {
         name: string
         optional: boolean
-        answers: Answers.IItemCreated[]
+        answers?: Answers.IItemCreated[]
         timeLimit?: Date
         isImage?: boolean
         img?: string
