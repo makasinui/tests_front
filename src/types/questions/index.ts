@@ -1,4 +1,5 @@
 import type { Answers } from "../answers"
+import type { Result } from "../results"
 
 export namespace Questions {
     export interface IItem {
@@ -21,7 +22,7 @@ export namespace Questions {
         step: number
         id?: number
         answer?: string
-        result?: string[]
+        result?: Result.IItemFiltered[]
     }
 
     export interface IItemCreated {

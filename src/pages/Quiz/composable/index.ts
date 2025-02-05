@@ -1,4 +1,4 @@
-import type { Answers, Questions } from '@/types';
+import type { Answers, Questions, Result } from '@/types';
 import { computed, ref } from 'vue';
 
 export const useQuiz = () => {
@@ -14,7 +14,7 @@ export const useQuiz = () => {
 
     const finalResult = ref('');
 
-    const setQuestionAnswer = (id: number, val: boolean | string, result?: string[]) => {
+    const setQuestionAnswer = (id: number, val: boolean | string, result?: Result.IItemFiltered[]) => {
         const stepIdx = stepAndAnswer.value.findIndex((item) => item?.step === step.value);
 
         if (typeof val === 'string') {
@@ -61,15 +61,17 @@ export const useQuiz = () => {
     };
     
     const getFinallyResult = () => {
-        const allResults = stepAndAnswer.value.flatMap(item => item.result as string[]);
+        const allResults = stepAndAnswer.value.flatMap(item => item.result);
         const countOfResult = allResults.reduce((acc, el) => {
             //@ts-ignore
-            acc[el] = (acc[el] || 0) + 1;
+            acc[el.id] = (acc[el.name] || 0) + 1;
             return acc
         }, {});
-
+        console.log(countOfResult)
         //@ts-ignore
-        finalResult.value = Object.keys(countOfResult).sort((a, b) => countOfResult[b] - countOfResult[a])[0];
+        const id = Object.keys(countOfResult).sort((a, b) => countOfResult[b] - countOfResult[a])[0] as number;
+
+        finalResult.value = allResults.find((item) => item!.id == id)!.name;
     }
 
     return {

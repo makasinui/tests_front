@@ -10,7 +10,7 @@ export namespace Answers {
 
     export interface IItemFiltered extends IItem {
         checked: boolean
-        resultsFiltered: string[]
+        resultsFiltered: Result.IItemFiltered[]
     }
 
     export interface IItemCreated {

@@ -9,4 +9,9 @@ export namespace Result {
         name: string
         img?: string
     }
+
+    export interface IItemFiltered {
+        id: number
+        name: string
+    }
 }
