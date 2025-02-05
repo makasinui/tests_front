@@ -46,7 +46,12 @@ const form = reactive({
     questions: [{
         name: '',
         optional: false,
-        type: QuestionsType.EType.CHOICE
+        type: QuestionsType.EType.CHOICE,
+        answers: [
+            {
+                name: '',
+            }
+        ]
     }]
 });
 

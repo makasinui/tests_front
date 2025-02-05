@@ -15,7 +15,7 @@ export namespace Answers {
 
     export interface IItemCreated {
         name: string
-        result: Result.IITemCreated[]
+        result?: Result.IITemCreated[]
         img?: string
     }
 }
