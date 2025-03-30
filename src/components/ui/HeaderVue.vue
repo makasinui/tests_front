@@ -22,6 +22,6 @@ const onOpen = () => {
 
 <style>
 .header {
-    @apply h-16 gap-4 flex items-center fixed w-full justify-between border-b border-gray-500 px-2 bg-white;
+    @apply h-16 gap-4 flex items-center fixed z-10 w-full justify-between border-b border-gray-500 px-2 bg-white;
 }
 </style>

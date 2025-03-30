@@ -27,7 +27,7 @@
 <script lang="ts" setup>
 import { httpGetAnswers } from '@/api/answers/answers.api';
 import { httpGetQuestions } from '@/api/questions/questions.api';
-import QuizAnswer from '@/components/quizes/QuizAnswer.vue';
+import QuizAnswer from '@/components/quizes/answer/QuizAnswer.vue';
 import { onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useQuiz } from './composable';

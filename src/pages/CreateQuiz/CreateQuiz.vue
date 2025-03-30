@@ -25,6 +25,7 @@
                     <Questions 
                         :questions="form.questions" 
                     />
+                    <AddQuestion @add-question="onAddQuestion" class="mt-4" />
                 </div>
             </div>
         </div>
@@ -34,11 +35,12 @@
 <script lang="ts" setup>
 import { computed, reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
-import { minLength, required } from '@vuelidate/validators';
-
+import { minLength, required, helpers } from '@vuelidate/validators';
 import { Questions as QuestionsType } from '@/types';
 
-import Questions from '@/components/quizes/Questions.vue';
+import Questions from '@/components/quizes/questions/Questions.vue';
+import { MIN_LENTH } from '@/consts';
+import AddQuestion from '@/components/quizes/questions/AddQuestion.vue';
 
 const form = reactive({
     name: '',
@@ -58,12 +60,25 @@ const form = reactive({
 const rules = computed(() => ({
     name: {
         required,
-        minLength: minLength(3)
+        minLength: helpers.withMessage(MIN_LENTH(3), minLength(3)),
     },
     description: {
-        minLength: minLength(1)
+        minLength: helpers.withMessage(MIN_LENTH(1), minLength(1))
     }
 }))
 
 const v$ = useVuelidate(rules, form, { $autoDirty: true });
+
+const onAddQuestion = (type: QuestionsType.EType) => {
+    form.questions.push({
+        name: '',
+        optional: false,
+        type,
+        answers: [
+            {
+                name: '',
+            }
+        ]
+    })
+}
 </script>
