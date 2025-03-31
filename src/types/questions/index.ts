@@ -29,8 +29,9 @@ export namespace Questions {
         name: string
         optional: boolean
         answers: Answers.IItemCreated[]
+        isTimeLimit: boolean
         timeLimit?: Date
-        isImage?: boolean
+        isImage: boolean
         img?: string
         type: EType
         sort?: number

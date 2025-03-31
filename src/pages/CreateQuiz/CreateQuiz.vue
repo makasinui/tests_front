@@ -49,6 +49,8 @@ const form = reactive({
         name: '',
         optional: false,
         type: QuestionsType.EType.CHOICE,
+        isImage: false,
+        isTimeLimit: false,
         answers: [
             {
                 name: '',
@@ -74,6 +76,8 @@ const onAddQuestion = (type: QuestionsType.EType) => {
         name: '',
         optional: false,
         type,
+        isImage: false,
+        isTimeLimit: false,
         answers: [
             {
                 name: '',

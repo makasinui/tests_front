@@ -6,21 +6,24 @@
             <Icon
                 :icon="currentIcon"
                 class="transition-opacity duration-200 ease-linear"
-                width="34"
-                height="34"
+                :width="small ? '24' : '34'"
+                :height="small ? '24' : '34'"
             />
         </Transition>
 
-        <span class="text-[1.25rem]">{{ label }}</span>
+        <span :class="twMerge('text-[1.25rem]', labelClassName)">{{ label }}</span>
     </div>
 </template>
 
 <script lang="ts" setup>
+import { twMerge } from 'tailwind-merge';
 import { computed } from 'vue';
 
 interface IProps {
     modelValue: boolean;
     label: string;
+    labelClassName?: string;
+    small?: boolean;
 }
 
 type TEmits = {

@@ -18,7 +18,7 @@
                     <Input
                         class="w-full"
                         v-model="item.name" />
-                    <div class="flex gap-1 pt-1">
+                    <div class="flex gap-1 pt-1" @click="onAddResult(idx)">
                         <Icon icon="entypo:plus" />
                         <span class="text-xs"> добавить результат </span>
                     </div>
@@ -38,10 +38,12 @@ interface IProps {
 
 type TEmits = {
     deleteAnswer: [questionIdx: number, answerIdx: number];
+    addResult: [questionIdx: number, answerIdx: number];
 };
 
 const emit = defineEmits<TEmits>();
 const props = defineProps<IProps>();
 
 const onDeleteAnswer = (idx: number) => emit('deleteAnswer', props.questionIdx, idx);
+const onAddResult = (idx: number) => emit('addResult', props.questionIdx, idx)
 </script>
