@@ -2,6 +2,7 @@
     <button 
         class="button"
         :style="size"
+        :disabled="disabled"
     >
         <slot></slot>
     </button>
@@ -12,6 +13,7 @@ import { computed } from 'vue';
 
 interface IProps {
     small: boolean
+    disabled?: boolean
 }
 
 const props = defineProps<IProps>();

@@ -10,11 +10,31 @@
                     <Button
                         small
                         class="max-w-[50%] ml-auto"
-                        @click="onAddAnswer(i)"
+                        @click="onAddImage"
+                        :disabled="imagePreview"
                     >
-                        Добавить изображение
+                        {{ imageTitle }}
                     </Button>
-                    <input type="file" class="hidden">
+                    <input 
+                        type="file" 
+                        ref="fileRef" 
+                        class="hidden"
+                        @change="onAddFile"
+                    >
+                </div>
+                <div class="flex items-center gap-2">
+                    <img 
+                        class="max-w-[200px] max-h-[200px] object-cover" 
+                        v-if="imagePreview" 
+                        :src="imagePreview"
+                    >
+                    <Button
+                        small
+                        v-if="imagePreview"
+                        @click="onDeleteImage"
+                    >
+                        Удалить изображение
+                    </Button>
                 </div>
                 <Icon
                     icon="entypo:cross"
@@ -51,7 +71,7 @@
 <script lang="ts" setup>
 import type { Questions } from '@/types';
 import AnswerList from '../answer/AnswerList.vue';
-import { ref } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 import QuestionSettings from './QuestionSettings.vue';
 
 interface IProps {
@@ -62,6 +82,21 @@ const props = defineProps<IProps>();
 
 const localQuestions = props.questions;
 const isOpen = ref(false);
+const fileRef = useTemplateRef<HTMLInputElement[]>('fileRef');
+const fileName = ref("");
+
+const imageTitle = computed(() => {
+    if(fileName.value) {
+        return fileName.value
+    }
+
+    return 'Добавить изображение'
+});
+
+const imagePreview = computed(() => {
+    if(!fileName.value) return
+    return URL.createObjectURL(fileRef.value?.[0]?.files?.[0] as File)
+})
 
 const onAddAnswer = (idx: number) => {
     const answers = localQuestions[idx].answers;
@@ -73,6 +108,23 @@ const onAddAnswer = (idx: number) => {
 
 const onAddResult = (questionIdx: number, answerIdx: number) => {
     localQuestions[questionIdx].answers[answerIdx].result = [];
+}
+
+const onAddImage = () => {
+    fileRef.value?.[0]?.click();
+}
+
+const onAddFile = (ev: Event) => {
+    fileName.value = ev.target.files[0].name;
+}
+
+const onDeleteImage = () => {
+    if(fileRef.value?.[0]) {
+
+        fileRef.value[0].files = null;
+        fileName.value = '';
+        fileRef.value[0].value = ''
+    }
 }
 
 const onDeleteAnswer = (questionIdx: number, answerIdx: number) => {
