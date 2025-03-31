@@ -5,8 +5,18 @@
             :key="i"
         >
             <div class="flex flex-col gap-2 bg-secondary px-2 py-4 relative">
+                <div class="flex justify-between">
+                    <span class="text-base">Вопрос {{ i + 1 }}</span>
+                    <Button
+                        small
+                        class="max-w-[50%] ml-auto"
+                        @click="onAddAnswer(i)"
+                    >
+                        Добавить изображение
+                    </Button>
+                    <input type="file" class="hidden">
+                </div>
                 <Icon
-                    v-if="i !== 0"
                     icon="entypo:cross"
                     class="bg-red-600 rounded-md absolute -right-2 -top-2 text-white"
                     @click="onDeleteQuestion(i)"
@@ -29,27 +39,8 @@
                 >
                     Добавить ответ
                 </Button>
-                <div>
-                    <Checkbox 
-                        v-model="question.isImage" 
-                        small 
-                        class="pl-0 gap-0" 
-                        label="Ответы в виде изображений" 
-                        label-class-name="text-[10px] pl-2" 
-                    />
-                    <Checkbox 
-                        v-model="question.isTimeLimit" 
-                        small 
-                        class="pl-0 gap-0" 
-                        label="Ограничение времени" 
-                        label-class-name="text-[10px] pl-2" 
-                    />
-                    <Input 
-                        v-if="question.isTimeLimit" 
-                        v-model="question.timeLimit"
-                        type="time"
-
-                    />
+                <div class="mt-2">
+                    <QuestionSettings :question="question" />
                 </div>
             </div>
         </div>
@@ -60,8 +51,8 @@
 <script lang="ts" setup>
 import type { Questions } from '@/types';
 import AnswerList from '../answer/AnswerList.vue';
-import Modal from '@/components/ui/Modal.vue';
 import { ref } from 'vue';
+import QuestionSettings from './QuestionSettings.vue';
 
 interface IProps {
     questions: Questions.IItemCreated[];

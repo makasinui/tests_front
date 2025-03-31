@@ -45,18 +45,7 @@ import AddQuestion from '@/components/quizes/questions/AddQuestion.vue';
 const form = reactive({
     name: '',
     description: '',
-    questions: [{
-        name: '',
-        optional: false,
-        type: QuestionsType.EType.CHOICE,
-        isImage: false,
-        isTimeLimit: false,
-        answers: [
-            {
-                name: '',
-            }
-        ]
-    }]
+    questions: []
 });
 
 const rules = computed(() => ({
@@ -72,12 +61,14 @@ const rules = computed(() => ({
 const v$ = useVuelidate(rules, form, { $autoDirty: true });
 
 const onAddQuestion = (type: QuestionsType.EType) => {
+    //@ts-ignore
     form.questions.push({
         name: '',
         optional: false,
         type,
         isImage: false,
         isTimeLimit: false,
+        multiply: false,
         answers: [
             {
                 name: '',

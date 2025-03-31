@@ -8,6 +8,7 @@ export namespace Questions {
         optional: boolean
         timeLimit?: Date
         isImage?: boolean
+        multiply: boolean
         img?: string
         type: EType
         sort?: number
@@ -30,6 +31,7 @@ export namespace Questions {
         optional: boolean
         answers: Answers.IItemCreated[]
         isTimeLimit: boolean
+        multiply: boolean
         timeLimit?: Date
         isImage: boolean
         img?: string
