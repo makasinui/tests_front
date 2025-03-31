@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/vue';
-import { Title, Select, Spinner, Button, Checkbox, ErrorField, Input, Modal } from '@/components';
+import { Title, Select, Spinner, Button, Checkbox, ErrorField, Input, Modal, FileUpload } from '@/components';
 import type { App } from 'vue';
 
 export default {
@@ -11,7 +11,8 @@ export default {
         app.component('Button', Button);
         app.component('Checkbox', Checkbox);
         app.component('ErrorField', ErrorField);
-        app.component('Input', Input)
-        app.component('Modal', Modal)
+        app.component('Input', Input);
+        app.component('Modal', Modal);
+        app.component('FileUpload', FileUpload)
     }
 }

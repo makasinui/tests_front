@@ -19,6 +19,12 @@
                     :error="v$.description.$errors"
                 />
             </div>
+            <div class="flex flex-col gap-2">
+                <FileUpload 
+                    v-model="form.img"
+                    label="Изображение"
+                />
+            </div>
             <div>
                 <Title class="text-center">Вопросы</Title>
                 <div class="pt-4">
@@ -55,6 +61,7 @@ const router = useRouter();
 const form = reactive<Quiz.IItemCreated>({
     name: '',
     description: '',
+    img: '',
     questions: []
 });
 
