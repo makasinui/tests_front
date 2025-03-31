@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/vue';
-import { Title, Select, Spinner, Button, Checkbox, ErrorField, Input } from '@/components';
+import { Title, Select, Spinner, Button, Checkbox, ErrorField, Input, Modal } from '@/components';
 import type { App } from 'vue';
 
 export default {
@@ -12,5 +12,6 @@ export default {
         app.component('Checkbox', Checkbox);
         app.component('ErrorField', ErrorField);
         app.component('Input', Input)
+        app.component('Modal', Modal)
     }
 }

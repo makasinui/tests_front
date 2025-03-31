@@ -19,7 +19,7 @@
                         type="file" 
                         ref="fileRef" 
                         class="hidden"
-                        @change="onAddFile"
+                        @change="(ev) => onAddFile(ev, i)"
                     >
                 </div>
                 <div class="flex items-center gap-2">
@@ -45,6 +45,7 @@
                     class="w-full"
                     placeholder="Название вопроса"
                     v-model="question.name"
+                    max="55"
                 />
                 <AnswerList
                     v-if="isChoiceType(question)"
@@ -75,6 +76,7 @@ import { Questions } from '@/types';
 import AnswerList from '../answer/AnswerList.vue';
 import { computed, ref, useTemplateRef } from 'vue';
 import QuestionSettings from './QuestionSettings.vue';
+import { httpPostFile } from '@/api/file/file.api';
 
 interface IProps {
     questions: Questions.IItemCreated[];
@@ -118,9 +120,14 @@ const onAddImage = () => {
     fileRef.value?.[0]?.click();
 }
 
-const onAddFile = (ev: Event) => {
+const onAddFile = async (ev: Event, questionIdx: number) => {
     if(!ev.target) return
-    fileName.value = (ev.target as HTMLInputElement)?.files?.[0].name!;
+    const target = (ev.target as HTMLInputElement);
+    if(!target?.files?.[0]) return
+
+    fileName.value = target.files[0].name;
+    const data = await httpPostFile(target.files[0]);
+    localQuestions[questionIdx].img = data.id
 }
 
 const onDeleteImage = () => {

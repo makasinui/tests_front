@@ -7,6 +7,7 @@
             class="relative p-2 rounded-md border"
             type="text"
             :value="modelValue"
+            :maxlength="max"
             :placeholder="placeholder ?? 'Введите значение'"
             @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)" />
         <div
@@ -33,6 +34,7 @@ interface IProps {
     placeholder?: string;
     error?: ErrorObject[];
     required?: boolean;
+    max?: string
 }
 
 type TEmits = {

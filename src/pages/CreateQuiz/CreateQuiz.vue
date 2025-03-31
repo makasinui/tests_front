@@ -1,7 +1,7 @@
 <template>
-    <section class="bg-main-bg h-full pt-20 px-4">
+    <section class="bg-main-bg min-h-full pt-20 pb-6 px-4">
         <Title class="text-center">Создание опроса</Title>
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4 h-full">
             <div class="flex flex-col gap-2">
                 <Input 
                     v-model="form.name"
@@ -28,6 +28,12 @@
                     <AddQuestion @add-question="onAddQuestion" class="mt-4" />
                 </div>
             </div>
+            <div class="flex justify-center gap-4 mb-auto h-full">
+                <Button @click="onCreateQuiz">Создать</Button>
+                <RouterLink to="/">
+                    <Button>Назад</Button>
+                </RouterLink>
+            </div>
         </div>
     </section>
 </template>
@@ -39,7 +45,7 @@ import { minLength, required, helpers } from '@vuelidate/validators';
 import { Questions as QuestionsType } from '@/types';
 
 import Questions from '@/components/quizes/questions/Questions.vue';
-import { MIN_LENTH } from '@/consts';
+import { MIN_LENTH, REQUIRED } from '@/consts';
 import AddQuestion from '@/components/quizes/questions/AddQuestion.vue';
 
 const form = reactive({
@@ -50,7 +56,7 @@ const form = reactive({
 
 const rules = computed(() => ({
     name: {
-        required,
+        required: helpers.withMessage(REQUIRED, required),
         minLength: helpers.withMessage(MIN_LENTH(3), minLength(3)),
     },
     description: {
@@ -75,5 +81,9 @@ const onAddQuestion = (type: QuestionsType.EType) => {
             }
         ]
     })
+};
+
+const onCreateQuiz = () => {
+    console.log(form)
 }
 </script>
