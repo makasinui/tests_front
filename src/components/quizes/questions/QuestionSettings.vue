@@ -2,6 +2,7 @@
     <Checkbox
         v-model="question.isImage"
         small
+        v-if="isChoiceType"
         class="pl-0 gap-0"
         label="Ответы в виде изображений"
         label-class-name="text-[10px] pl-2" 
@@ -20,6 +21,7 @@
     />
     <Checkbox
         v-model="question.multiply"
+        v-if="isChoiceType"
         small
         class="pl-0 gap-0"
         label="Несколько ответов"
@@ -28,11 +30,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { Questions } from '@/types';
+import { Questions } from '@/types';
 
 interface IProps {
     question: Questions.IItemCreated
 }
 
-defineProps<IProps>()
+const props = defineProps<IProps>()
+
+const isChoiceType = props.question.type === Questions.EType.CHOICE;
 </script>

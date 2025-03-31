@@ -46,13 +46,15 @@
                     placeholder="Название вопроса"
                     v-model="question.name"
                 />
-                <AnswerList 
+                <AnswerList
+                    v-if="isChoiceType(question)"
                     :answers="question.answers"
                     :question-idx="i"
                     @delete-answer="onDeleteAnswer"
                     @add-result="onAddResult"
                 />
                 <Button
+                    v-if="isChoiceType(question)"
                     small
                     class="mt-2"
                     @click="onAddAnswer(i)"
@@ -69,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Questions } from '@/types';
+import { Questions } from '@/types';
 import AnswerList from '../answer/AnswerList.vue';
 import { computed, ref, useTemplateRef } from 'vue';
 import QuestionSettings from './QuestionSettings.vue';
@@ -96,7 +98,9 @@ const imageTitle = computed(() => {
 const imagePreview = computed(() => {
     if(!fileName.value) return
     return URL.createObjectURL(fileRef.value?.[0]?.files?.[0] as File)
-})
+});
+
+const isChoiceType = (question: Questions.IItemCreated) => question.type === Questions.EType.CHOICE;
 
 const onAddAnswer = (idx: number) => {
     const answers = localQuestions[idx].answers;
@@ -115,7 +119,8 @@ const onAddImage = () => {
 }
 
 const onAddFile = (ev: Event) => {
-    fileName.value = ev.target.files[0].name;
+    if(!ev.target) return
+    fileName.value = (ev.target as HTMLInputElement)?.files?.[0].name!;
 }
 
 const onDeleteImage = () => {
