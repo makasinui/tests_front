@@ -42,13 +42,17 @@
 import { computed, reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { minLength, required, helpers } from '@vuelidate/validators';
-import { Questions as QuestionsType } from '@/types';
+import { Questions as QuestionsType, type Quiz } from '@/types';
 
 import Questions from '@/components/quizes/questions/Questions.vue';
 import { MIN_LENTH, REQUIRED } from '@/consts';
 import AddQuestion from '@/components/quizes/questions/AddQuestion.vue';
+import { httpPostQuiz } from '@/api/quiz/quiz.api';
+import { useRouter } from 'vue-router';
 
-const form = reactive({
+const router = useRouter();
+
+const form = reactive<Quiz.IItemCreated>({
     name: '',
     description: '',
     questions: []
@@ -64,7 +68,7 @@ const rules = computed(() => ({
     }
 }))
 
-const v$ = useVuelidate(rules, form, { $autoDirty: true });
+const v$ = useVuelidate(rules, form as { name: string; description: string }, { $autoDirty: true });
 
 const onAddQuestion = (type: QuestionsType.EType) => {
     //@ts-ignore
@@ -83,7 +87,14 @@ const onAddQuestion = (type: QuestionsType.EType) => {
     })
 };
 
-const onCreateQuiz = () => {
-    console.log(form)
+const onCreateQuiz = async () => {
+    const isValidForm = await v$.value.$validate();
+    if(!isValidForm || !form.questions?.length) return
+    try {
+        await httpPostQuiz(form);
+        router.push('/')
+    } catch(err) {
+        console.error(err);
+    }
 }
 </script>

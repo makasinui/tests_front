@@ -14,7 +14,7 @@ export namespace Quiz {
 
     export interface IItemCreated {
         name: string
-        subtitle?: string
+        description?: string
         img?: string
         questions: Questions.IItemCreated[]
     }

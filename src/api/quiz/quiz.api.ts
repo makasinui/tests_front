@@ -13,3 +13,9 @@ export const httpGetQuiz = async (id: number | string): Promise<Quiz.IItem> => {
 
     return data;
 }
+
+export const httpPostQuiz = async (form: Quiz.IItemCreated) => {
+    const { data } = await axios.post(`${url}/quizes`, form);
+
+    console.log(data);
+}

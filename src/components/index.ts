@@ -7,6 +7,7 @@ import Checkbox from './ui/Checkbox.vue'
 import ErrorField from './ui/ErrorField.vue'
 import Input from './ui/Input.vue'
 import Modal from './ui/Modal.vue'
+import FileUpload from './ui/FileUpload.vue'
 
 export {
     Layout,
@@ -17,5 +18,6 @@ export {
     Checkbox,
     ErrorField,
     Input,
-    Modal
+    Modal,
+    FileUpload
 }

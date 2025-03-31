@@ -34,7 +34,7 @@ export namespace Questions {
         multiply: boolean
         timeLimit?: Date
         isImage: boolean
-        img?: number
+        img?: string
         type: EType
         sort?: number
     }
