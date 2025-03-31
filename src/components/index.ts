@@ -6,6 +6,7 @@ import Button from './ui/Button.vue'
 import Checkbox from './ui/Checkbox.vue'
 import ErrorField from './ui/ErrorField.vue'
 import Input from './ui/Input.vue'
+import Modal from './ui/Modal.vue'
 
 export {
     Layout,
@@ -15,5 +16,6 @@ export {
     Button,
     Checkbox,
     ErrorField,
-    Input
+    Input,
+    Modal
 }
