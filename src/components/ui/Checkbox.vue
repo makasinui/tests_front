@@ -20,10 +20,11 @@ import { twMerge } from 'tailwind-merge';
 import { computed } from 'vue';
 
 interface IProps {
-    modelValue: boolean;
+    modelValue?: boolean;
     label: string;
     labelClassName?: string;
     small?: boolean;
+    checked?: boolean;
 }
 
 type TEmits = {
@@ -34,7 +35,7 @@ const props = defineProps<IProps>();
 const emit = defineEmits<TEmits>();
 
 const currentIcon = computed(() => {
-    if (props.modelValue) {
+    if (props.modelValue || props.checked) {
         return 'mdi:checkbox-marked';
     }
 

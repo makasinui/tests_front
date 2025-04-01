@@ -12,7 +12,7 @@
 import { computed } from 'vue';
 
 interface IProps {
-    small: boolean
+    small?: boolean
     disabled?: boolean
 }
 

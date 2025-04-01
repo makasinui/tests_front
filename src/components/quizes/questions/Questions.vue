@@ -37,7 +37,7 @@
                     :answers="question.answers"
                     :question-idx="i"
                     @delete-answer="onDeleteAnswer"
-                    @add-result="onAddResult"
+                    @add-result="onAddResultModal"
                 />
                 <Button
                     v-if="isChoiceType(question)"
@@ -56,11 +56,43 @@
     <Modal
         :show="isOpen"
         @on-close="isOpen = false"
-    />
+    >
+        <div
+            class="flex flex-col gap-4 h-full"
+            v-if="!result?.length"
+        >
+            <span class="text-xl text-center">Добавить результат</span>
+            <div class="h-full">
+                <ValidateEach :state="resultForm" :rules="rules">
+                    <template #default="{ v }">
+                        <Input
+                            label="Наименование"
+                            v-model="v.name.$model"
+                            :error="v.name.$errors"
+                        />
+                    </template>
+                </ValidateEach>
+                <FileUpload
+                    class="mt-4"
+                    label="Изображение"
+                    v-model="resultForm.img"
+                />
+            </div>
+            <Button @click="onAddResult">Сохранить</Button>
+        </div>
+        <div v-else>
+            <Checkbox
+                v-for="item in result"
+                :key="item.name"
+                :label="item.name"
+                :checked="hasResultInAnswer"
+            />
+        </div>
+    </Modal>
 </template>
 
 <script lang="ts" setup>
-import { Questions } from '@/types';
+import { Questions, type Result } from '@/types';
 import AnswerList from '../answer/AnswerList.vue';
 import QuestionSettings from './QuestionSettings.vue';
 import { useQuestion } from './composables';
@@ -68,11 +100,27 @@ import { ValidateEach } from '@vuelidate/components';
 
 interface IProps {
     questions: Questions.IItemCreated[];
+    result: Result.IITemCreated[];
 }
 
+type TEmits = {
+    addResult: [result: Result.IITemCreated];
+};
+
+const emit = defineEmits<TEmits>();
 const props = defineProps<IProps>();
 
-const { localQuestions, isOpen, rules, isChoiceType, onAddAnswer, onAddResult, onDeleteAnswer, onDeleteQuestion } = useQuestion(
-    props.questions,
-);
+const {
+    localQuestions,
+    isOpen,
+    rules,
+    hasResultInAnswer,
+    resultForm,
+    isChoiceType,
+    onAddAnswer,
+    onAddResultModal,
+    onAddResult,
+    onDeleteAnswer,
+    onDeleteQuestion,
+} = useQuestion({questions: props.questions, emit, result: props.result});
 </script>

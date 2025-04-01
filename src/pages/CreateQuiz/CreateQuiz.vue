@@ -29,7 +29,9 @@
                 <Title class="text-center">Вопросы</Title>
                 <div class="pt-4">
                     <Questions 
-                        :questions="form.questions" 
+                        :questions="form.questions"
+                        :result="form.result"
+                        @add-result="onAddResult"
                     />
                     <AddQuestion @add-question="onAddQuestion" class="mt-4" />
                 </div>
@@ -48,7 +50,7 @@
 import { computed, reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { minLength, required, helpers } from '@vuelidate/validators';
-import { Questions as QuestionsType, type Quiz } from '@/types';
+import { Questions as QuestionsType, type Quiz, type Result } from '@/types';
 
 import Questions from '@/components/quizes/questions/Questions.vue';
 import { MIN_LENTH, REQUIRED } from '@/consts';
@@ -90,10 +92,16 @@ const onAddQuestion = (type: QuestionsType.EType) => {
         answers: [
             {
                 name: '',
+                result: []
             }
         ]
     })
 };
+
+const onAddResult = (result: Result.IITemCreated) => {
+    console.log(result, 'asdasdasdasdas')
+    form.result.push(result);
+}
 
 const onCreateQuiz = async () => {
     const isValidForm = await v$.value.$validate();

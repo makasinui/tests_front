@@ -17,7 +17,7 @@ export namespace Quiz {
         name: string
         description?: string
         img?: string
-        result?: Result.IITemCreated[]
+        result: Result.IITemCreated[]
         questions: Questions.IItemCreated[]
     }
 }

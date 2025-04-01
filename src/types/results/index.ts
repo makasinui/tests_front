@@ -8,6 +8,7 @@ export namespace Result {
     export interface IITemCreated {
         name: string
         img?: string
+        id: number
     }
 
     export interface IItemFiltered {
