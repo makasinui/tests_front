@@ -62,7 +62,8 @@ const form = reactive<Quiz.IItemCreated>({
     name: '',
     description: '',
     img: '',
-    questions: []
+    questions: [],
+    result: []
 });
 
 const rules = computed(() => ({

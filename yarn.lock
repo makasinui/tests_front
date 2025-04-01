@@ -477,6 +477,14 @@
   resolved "https://registry.yarnpkg.com/@vue/tsconfig/-/tsconfig-0.7.0.tgz#67044c847b7a137b8cbfd6b23104c36dbaf80d1d"
   integrity sha512-ku2uNz5MaZ9IerPPUyOHzyjhXoX2kVJaVf7hL315DC17vS6IiZRmmCPfggNbU16QTvM80+uYYy3eYJB59WCtvg==
 
+"@vuelidate/components@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@vuelidate/components/-/components-1.2.6.tgz#a0f36209ed1f6aa18f0c81ef11747f08f948eaef"
+  integrity sha512-oteVHhic9F4zDnSvSRIAadrmu1can/TwjAqGOnpGFc+rKDd29fhUdbmIVEDQLQjVAF0VzZK7s0y+cxvfMERF9w==
+  dependencies:
+    "@vuelidate/core" "^2.0.3"
+    vue-demi "^0.13.11"
+
 "@vuelidate/core@^2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@vuelidate/core/-/core-2.0.3.tgz#40468c5ed15b72bde880a026b0699c2f0f1ecede"

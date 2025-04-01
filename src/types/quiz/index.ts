@@ -1,4 +1,5 @@
 import type { Questions } from "../questions"
+import type { Result } from "../results"
 
 export namespace Quiz {
     export interface IBackItem {
@@ -16,6 +17,7 @@ export namespace Quiz {
         name: string
         description?: string
         img?: string
+        result?: Result.IITemCreated[]
         questions: Questions.IItemCreated[]
     }
 }
