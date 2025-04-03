@@ -29,14 +29,32 @@ export const useQuestion = ({ questions, emit, result }: IProps) => {
 
     const isChoiceType = (question: Questions.IItemCreated) => question.type === Questions.EType.CHOICE;
 
-    const hasResultInAnswer = computed(() => {
+    const hasResultInAnswer = (id: number) => {
         if(!currentResultToAdd.value?.result?.length) {
             return false
         }
         const { questionIdx, answerIdx } = currentResultToAdd.value;
         const currentResult = localQuestions[questionIdx].answers[answerIdx].result;
-        return currentResult?.some(item => result.some(res => res.id === item.id))
-    })
+        return currentResult?.some(item => item.id === id)
+    }
+
+    const onChangeResult = (id: number) => {
+        const { questionIdx, answerIdx } = currentResultToAdd.value;
+        if(hasResultInAnswer(id)) {
+            localQuestions[questionIdx].answers[answerIdx].result.filter(item => item.id !== id);
+            currentResultToAdd.value.result = localQuestions[questionIdx].answers[answerIdx].result; 
+            return;
+        }
+
+        const findedItem = result.find(item => item.id === id);
+
+        if(!findedItem?.id) {
+            return
+        }
+
+        localQuestions[questionIdx].answers[answerIdx].result.push(findedItem);
+        currentResultToAdd.value.result = localQuestions[questionIdx].answers[answerIdx].result;
+    }
 
     const onAddAnswer = (idx: number) => {
         const answers = localQuestions[idx].answers;
@@ -93,6 +111,7 @@ export const useQuestion = ({ questions, emit, result }: IProps) => {
         onAddResult,
         onAddResultModal,
         onDeleteAnswer,
+        onChangeResult,
         onDeleteQuestion,
     };
 };

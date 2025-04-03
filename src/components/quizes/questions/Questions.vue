@@ -81,12 +81,20 @@
             <Button @click="onAddResult">Сохранить</Button>
         </div>
         <div v-else>
+            <span class="text-xl text-center">Выбрать результат</span>
             <Checkbox
                 v-for="item in result"
                 :key="item.name"
                 :label="item.name"
-                :checked="hasResultInAnswer"
+                small
+                :checked="hasResultInAnswer(item.id)"
+                @click="onChangeResult(item.id)"
+                class="pl-0 pt-2 text-sm gap-0"
             />
+            <div class="flex justify-center mt-4 gap-2">
+                <Button @click="isOpen = false">Добавить</Button>
+                <Button @click="isOpen = false">Закрыть</Button>
+            </div>
         </div>
     </Modal>
 </template>
@@ -122,5 +130,6 @@ const {
     onAddResult,
     onDeleteAnswer,
     onDeleteQuestion,
+    onChangeResult
 } = useQuestion({questions: props.questions, emit, result: props.result});
 </script>
