@@ -2,15 +2,15 @@ import { MIN_LENTH, REQUIRED } from '@/consts';
 import { Questions, type Result } from '@/types';
 import useVuelidate from '@vuelidate/core';
 import { helpers, required, minLength } from '@vuelidate/validators';
-import { computed, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 
 interface IProps {
     questions: Questions.IItemCreated[];
-    emit: (evt: 'addResult', result: Result.IITemCreated) => void;
-    result: Result.IITemCreated[]
+    result: Result.IITemCreated[];
+    onAddResultToStore: (result: Result.IITemCreated) => void
 }
 
-export const useQuestion = ({ questions, emit, result }: IProps) => {
+export const useQuestion = ({ questions, onAddResultToStore, result }: IProps) => {
     const isOpen = ref(false);
     const currentResultToAdd = ref();
     const resultForm = reactive({
@@ -77,7 +77,7 @@ export const useQuestion = ({ questions, emit, result }: IProps) => {
         
 
         questions[questionIdx].answers[answerIdx].result.push({name, img: img ?? undefined, id});
-        emit('addResult', {name, img: img ?? undefined, id});
+        onAddResultToStore({name, img: img ?? undefined, id});
     };
 
     return {

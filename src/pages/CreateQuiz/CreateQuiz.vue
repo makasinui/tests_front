@@ -6,11 +6,7 @@
             <div>
                 <Title class="text-center">Вопросы</Title>
                 <div class="pt-4">
-                    <Questions 
-                        :questions="form.questions"
-                        :result="form.result"
-                        @add-result="onAddResult"
-                    />
+                    <Questions />
                     <AddQuestion @add-question="onAddQuestion" class="mt-4" />
                 </div>
             </div>

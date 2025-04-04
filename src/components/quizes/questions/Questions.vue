@@ -100,7 +100,6 @@
 </template>
 
 <script lang="ts" setup>
-import { type Result } from '@/types';
 import AnswerList from '../answer/AnswerList.vue';
 import QuestionSettings from './QuestionSettings.vue';
 import { useQuestion } from './composables';
@@ -109,23 +108,17 @@ import { useQuizStore } from '@/store/quizStore';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
-
-type TEmits = {
-    addResult: [result: Result.IITemCreated];
-};
-
 const quizStore = useQuizStore();
 
 const { form } = storeToRefs(quizStore);
 const { 
     onAddAnswer,
+    onAddResult: onAddResultToStore,
     onDeleteAnswer,
     onDeleteQuestion
 } = quizStore;
 const questions = ref(form.value.questions);
 const result = ref(form.value.result);
-
-const emit = defineEmits<TEmits>();
 
 const {
     isOpen,
@@ -136,5 +129,5 @@ const {
     onAddResultModal,
     onAddResult,
     onChangeResult
-} = useQuestion({questions: questions.value, emit, result: result.value});
+} = useQuestion({questions: questions.value, onAddResultToStore, result: result.value});
 </script>
