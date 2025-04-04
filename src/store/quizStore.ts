@@ -2,7 +2,7 @@ import type { Questions, Quiz, Result } from '@/types';
 import { defineStore } from 'pinia'
 import { reactive } from 'vue';
 
-export const useQuestionStore = defineStore('questionStore', () => {
+export const useQuizStore = defineStore('quizStore', () => {
     const form = reactive<Quiz.IItemCreated>({
         name: '',
         description: '',
@@ -33,9 +33,29 @@ export const useQuestionStore = defineStore('questionStore', () => {
         form.result.push(result);
     }
 
+    const onAddAnswer = (idx: number) => {
+        const answers = form.questions[idx].answers;
+
+        answers.push({
+            name: '',
+            result: []
+        });
+    };
+
+    const onDeleteAnswer = (questionIdx: number, answerIdx: number) => {
+        form.questions[questionIdx].answers?.splice(answerIdx, 1);
+    };
+
+    const onDeleteQuestion = (questionIdx: number) => {
+        form.questions.splice(questionIdx, 1);
+    };
+
     return {
         form,
         onAddQuestion,
-        onAddResult
+        onAddResult,
+        onAddAnswer,
+        onDeleteAnswer,
+        onDeleteQuestion
     }
 });

@@ -27,19 +27,17 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
 
-import { type Result } from '@/types';
-
 import Questions from '@/components/quizes/questions/Questions.vue';
 import AddQuestion from '@/components/quizes/questions/AddQuestion.vue';
 
-import { useQuestionStore } from '@/store/questionStore';
+import { useQuizStore } from '@/store/quizStore';
 import { useCreateQuiz } from './composables';
 import QuizForm from '@/components/quizes/QuizForm.vue';
 
-const questionStore = useQuestionStore();
+const quizStore = useQuizStore();
 
-const { form } = storeToRefs(questionStore);
-const { onAddQuestion, onAddResult } = questionStore;
+const { form } = storeToRefs(quizStore);
+const { onAddQuestion, onAddResult } = quizStore;
 
 const {
     onCreateQuiz

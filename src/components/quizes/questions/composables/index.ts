@@ -11,7 +11,6 @@ interface IProps {
 }
 
 export const useQuestion = ({ questions, emit, result }: IProps) => {
-    const localQuestions = questions;
     const isOpen = ref(false);
     const currentResultToAdd = ref();
     const resultForm = reactive({
@@ -34,15 +33,15 @@ export const useQuestion = ({ questions, emit, result }: IProps) => {
             return false
         }
         const { questionIdx, answerIdx } = currentResultToAdd.value;
-        const currentResult = localQuestions[questionIdx].answers[answerIdx].result;
+        const currentResult = questions[questionIdx].answers[answerIdx].result;
         return currentResult?.some(item => item.id === id)
     }
 
     const onChangeResult = (id: number) => {
         const { questionIdx, answerIdx } = currentResultToAdd.value;
         if(hasResultInAnswer(id)) {
-            localQuestions[questionIdx].answers[answerIdx].result.filter(item => item.id !== id);
-            currentResultToAdd.value.result = localQuestions[questionIdx].answers[answerIdx].result; 
+            questions[questionIdx].answers[answerIdx].result.filter(item => item.id !== id);
+            currentResultToAdd.value.result = questions[questionIdx].answers[answerIdx].result; 
             return;
         }
 
@@ -52,23 +51,14 @@ export const useQuestion = ({ questions, emit, result }: IProps) => {
             return
         }
 
-        localQuestions[questionIdx].answers[answerIdx].result.push(findedItem);
-        currentResultToAdd.value.result = localQuestions[questionIdx].answers[answerIdx].result;
+        questions[questionIdx].answers[answerIdx].result.push(findedItem);
+        currentResultToAdd.value.result = questions[questionIdx].answers[answerIdx].result;
     }
-
-    const onAddAnswer = (idx: number) => {
-        const answers = localQuestions[idx].answers;
-
-        answers.push({
-            name: '',
-            result: []
-        });
-    };
 
     const onAddResultModal = (questionIdx: number, answerIdx: number) => {
         isOpen.value = true;
         currentResultToAdd.value = {
-            result: localQuestions[questionIdx].answers[answerIdx].result ?? [],
+            result: questions[questionIdx].answers[answerIdx].result ?? [],
             questionIdx,
             answerIdx,
         };
@@ -86,20 +76,11 @@ export const useQuestion = ({ questions, emit, result }: IProps) => {
         });
         
 
-        localQuestions[questionIdx].answers[answerIdx].result.push({name, img: img ?? undefined, id});
+        questions[questionIdx].answers[answerIdx].result.push({name, img: img ?? undefined, id});
         emit('addResult', {name, img: img ?? undefined, id});
     };
 
-    const onDeleteAnswer = (questionIdx: number, answerIdx: number) => {
-        localQuestions[questionIdx].answers?.splice(answerIdx, 1);
-    };
-
-    const onDeleteQuestion = (questionIdx: number) => {
-        localQuestions.splice(questionIdx, 1);
-    };
-
     return {
-        localQuestions,
         isOpen,
         v,
         rules,
@@ -107,11 +88,8 @@ export const useQuestion = ({ questions, emit, result }: IProps) => {
         resultForm,
         hasResultInAnswer,
         isChoiceType,
-        onAddAnswer,
         onAddResult,
         onAddResultModal,
-        onDeleteAnswer,
         onChangeResult,
-        onDeleteQuestion,
     };
 };

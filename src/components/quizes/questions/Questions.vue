@@ -5,7 +5,7 @@
         class="flex flex-col gap-6"
     >
         <div
-            v-for="(question, i) in localQuestions"
+            v-for="(question, i) in questions"
             :key="i"
         >
             <div class="flex flex-col gap-2 bg-secondary px-2 py-4 relative">
@@ -32,21 +32,21 @@
                         />
                     </template>
                 </ValidateEach>
-                <AnswerList
-                    v-if="isChoiceType(question)"
-                    :answers="question.answers"
-                    :question-idx="i"
-                    @delete-answer="onDeleteAnswer"
-                    @add-result="onAddResultModal"
-                />
-                <Button
-                    v-if="isChoiceType(question)"
-                    small
-                    class="mt-2"
-                    @click="onAddAnswer(i)"
-                >
-                    Добавить ответ
-                </Button>
+                <template v-if="isChoiceType(question)">
+                    <AnswerList
+                        :answers="question.answers"
+                        :question-idx="i"
+                        @delete-answer="onDeleteAnswer"
+                        @add-result="onAddResultModal"
+                    />
+                    <Button
+                        small
+                        class="mt-2"
+                        @click="onAddAnswer(i)"
+                    >
+                        Добавить ответ
+                    </Button>
+                </template>
                 <div class="mt-2">
                     <QuestionSettings :question="question" />
                 </div>
@@ -100,36 +100,41 @@
 </template>
 
 <script lang="ts" setup>
-import { Questions, type Result } from '@/types';
+import { type Result } from '@/types';
 import AnswerList from '../answer/AnswerList.vue';
 import QuestionSettings from './QuestionSettings.vue';
 import { useQuestion } from './composables';
 import { ValidateEach } from '@vuelidate/components';
+import { useQuizStore } from '@/store/quizStore';
+import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
 
-interface IProps {
-    questions: Questions.IItemCreated[];
-    result: Result.IITemCreated[];
-}
 
 type TEmits = {
     addResult: [result: Result.IITemCreated];
 };
 
+const quizStore = useQuizStore();
+
+const { form } = storeToRefs(quizStore);
+const { 
+    onAddAnswer,
+    onDeleteAnswer,
+    onDeleteQuestion
+} = quizStore;
+const questions = ref(form.value.questions);
+const result = ref(form.value.result);
+
 const emit = defineEmits<TEmits>();
-const props = defineProps<IProps>();
 
 const {
-    localQuestions,
     isOpen,
     rules,
     hasResultInAnswer,
     resultForm,
     isChoiceType,
-    onAddAnswer,
     onAddResultModal,
     onAddResult,
-    onDeleteAnswer,
-    onDeleteQuestion,
     onChangeResult
-} = useQuestion({questions: props.questions, emit, result: props.result});
+} = useQuestion({questions: questions.value, emit, result: result.value});
 </script>

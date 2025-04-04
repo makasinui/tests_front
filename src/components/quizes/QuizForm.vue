@@ -26,12 +26,12 @@
 
 <script lang="ts" setup>
 import { useCreateQuiz } from '@/pages/CreateQuiz/composables';
-import { useQuestionStore } from '@/store/questionStore';
+import { useQuizStore } from '@/store/quizStore';
 import { storeToRefs } from 'pinia';
 
-const questionStore = useQuestionStore();
+const quizStore = useQuizStore();
 
-const { form } = storeToRefs(questionStore);
+const { form } = storeToRefs(quizStore);
 
 const { v$ } = useCreateQuiz(form);
 </script>
