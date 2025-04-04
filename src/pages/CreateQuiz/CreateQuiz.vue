@@ -2,29 +2,7 @@
     <section class="bg-main-bg min-h-full pt-20 pb-6 px-4">
         <Title class="text-center">Создание опроса</Title>
         <div class="flex flex-col gap-4 h-full">
-            <div class="flex flex-col gap-2">
-                <Input 
-                    v-model="form.name"
-                    label="Название"
-                    placeholder="Название опроса"
-                    :error="v$.name.$errors"
-                    required
-                />
-            </div>
-            <div class="flex flex-col gap-2">
-                <Input 
-                    v-model="form.description"
-                    label="Краткое описание"
-                    placeholder="Краткое описание"
-                    :error="v$.description.$errors"
-                />
-            </div>
-            <div class="flex flex-col gap-2">
-                <FileUpload 
-                    v-model="form.img"
-                    label="Изображение"
-                />
-            </div>
+            <QuizForm />
             <div>
                 <Title class="text-center">Вопросы</Title>
                 <div class="pt-4">
@@ -56,6 +34,7 @@ import AddQuestion from '@/components/quizes/questions/AddQuestion.vue';
 
 import { useQuestionStore } from '@/store/questionStore';
 import { useCreateQuiz } from './composables';
+import QuizForm from '@/components/quizes/QuizForm.vue';
 
 const questionStore = useQuestionStore();
 
@@ -63,7 +42,6 @@ const { form } = storeToRefs(questionStore);
 const { onAddQuestion, onAddResult } = questionStore;
 
 const {
-    v$,
     onCreateQuiz
 } = useCreateQuiz(form);
 </script>
