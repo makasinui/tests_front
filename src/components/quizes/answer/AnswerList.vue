@@ -38,6 +38,11 @@
                         <Icon icon="entypo:plus" />
                         <span class="text-xs"> добавить результат </span>
                     </div>
+                    <template v-if="item.result?.length">
+                        <div class="flex flex-col gap-1 pl-5" v-for="res in item.result">
+                            <span class="text-xs">{{ res.name }}</span>
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>
