@@ -47,70 +47,23 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive } from 'vue';
-import { useVuelidate } from '@vuelidate/core';
-import { minLength, required, helpers } from '@vuelidate/validators';
-import { Questions as QuestionsType, type Quiz, type Result } from '@/types';
+import { storeToRefs } from 'pinia';
+
+import { type Result } from '@/types';
 
 import Questions from '@/components/quizes/questions/Questions.vue';
-import { MIN_LENTH, REQUIRED } from '@/consts';
 import AddQuestion from '@/components/quizes/questions/AddQuestion.vue';
-import { httpPostQuiz } from '@/api/quiz/quiz.api';
-import { useRouter } from 'vue-router';
 
-const router = useRouter();
+import { useQuestionStore } from '@/store/questionStore';
+import { useCreateQuiz } from './composables';
 
-const form = reactive<Quiz.IItemCreated>({
-    name: '',
-    description: '',
-    img: '',
-    questions: [],
-    result: []
-});
+const questionStore = useQuestionStore();
 
-const rules = computed(() => ({
-    name: {
-        required: helpers.withMessage(REQUIRED, required),
-        minLength: helpers.withMessage(MIN_LENTH(3), minLength(3)),
-    },
-    description: {
-        minLength: helpers.withMessage(MIN_LENTH(1), minLength(1))
-    }
-}))
+const { form } = storeToRefs(questionStore);
+const { onAddQuestion, onAddResult } = questionStore;
 
-const v$ = useVuelidate(rules, form as { name: string; description: string }, { $autoDirty: true });
-
-const onAddQuestion = (type: QuestionsType.EType) => {
-    //@ts-ignore
-    form.questions.push({
-        name: '',
-        optional: false,
-        type,
-        isImage: false,
-        isTimeLimit: false,
-        multiply: false,
-        answers: [
-            {
-                name: '',
-                result: []
-            }
-        ]
-    })
-};
-
-const onAddResult = (result: Result.IITemCreated) => {
-    console.log(result, 'asdasdasdasdas')
-    form.result.push(result);
-}
-
-const onCreateQuiz = async () => {
-    const isValidForm = await v$.value.$validate();
-    if(!isValidForm || !form.questions?.length) return
-    try {
-        await httpPostQuiz(form);
-        router.push('/')
-    } catch(err) {
-        console.error(err);
-    }
-}
+const {
+    v$,
+    onCreateQuiz
+} = useCreateQuiz(form);
 </script>
